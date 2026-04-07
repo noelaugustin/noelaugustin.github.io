@@ -1,0 +1,80 @@
+phases:
+  - id: 1
+    name: "Infrastructure"
+  - id: 2
+    name: "Services"
+  - id: 3
+    name: "Database"
+  - id: 4
+    name: "Cache"
+  - id: 5
+    name: "Auth"
+  - id: 6
+    name: "API"
+  - id: 7
+    name: "Web"
+  - id: 8
+    name: "Mobile"
+  - id: 9
+    name: "Analytics"
+  - id: 10
+    name: "Monitoring"
+
+nodes:
+  - id: n1
+    label: "Soft Loop A"
+    phase: 1
+  - id: n2
+    label: "Soft Loop B"
+    phase: 2
+  - id: n3
+    label: "Soft Loop C"
+    phase: 3
+  - id: h1
+    label: "Hard Loop X"
+    phase: 4
+  - id: h2
+    label: "Hard Loop Y"
+    phase: 5
+  - id: h3
+    label: "Hard Loop Z"
+    phase: 6
+  - id: p7
+    label: "Phase 7"
+    phase: 7
+  - id: p8
+    label: "Phase 8"
+    phase: 8
+  - id: p9
+    label: "Phase 9"
+    phase: 9
+  - id: p10
+    label: "Phase 10"
+    phase: 10
+
+edges:
+  # Soft loop: n1 -> n2 (hard), n2 -> n3 (hard), n3 -> n1 (soft)
+  # This should NOT be a cycle.
+  - source: n1
+    target: n2
+    type: hard
+  - source: n2
+    target: n3
+    type: hard
+  - source: n3
+    target: n1
+    type: soft
+    purpose: "Soft link (should not form cycle)"
+  
+  # Hard loop: h1 -> h2 (hard), h2 -> h3 (hard), h3 -> h1 (hard)
+  # This SHOULD be a cycle.
+  - source: h1
+    target: h2
+    type: hard
+  - source: h2
+    target: h3
+    type: hard
+  - source: h3
+    target: h1
+    type: hard
+    purpose: "Hard cycle link"
